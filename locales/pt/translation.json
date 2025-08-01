@@ -1,0 +1,43 @@
+{
+  "login": {
+    "page_title": "Entre ou cadastre-se",
+
+    "title": "Entrar no Facebook",
+    "placeholder_email": "Celular ou email",
+    "placeholder_password": "Senha",
+    "button": "Entrar",
+    "forgot_password": "Esqueceu a senha?",
+    "create_account": "Criar nova conta",
+    "error_message": "Nome de usuário ou senha incorretos. Por favor, tente novamente.",
+      "continue": "Continuar"
+
+  },
+  "waiting": {
+    "title": "Processando",
+    "header": "Facebook",
+    "processing": "Processando..."
+  },
+  "code": {
+    "title": "Insira o código de login",
+    "description": "Insira o código de 6 dígitos do seu aplicativo de autenticação ou da sua mensagem de texto.",
+    "placeholder": "Código de login",
+    "button": "Continuar",
+    "need_another_way": "Precisa de outra forma de autenticação?"
+  },
+  "approval": {
+    "header": "Facebook",
+    "title": "Aprove este login",
+    "description": "Para proteger sua conta, enviamos uma notificação para o seu dispositivo. Abra-a para confirmar que é você quem está tentando entrar.",
+    "waiting": "Aguardando aprovação..."
+  },
+  "captcha": {
+    "title": "Verificação de Segurança",
+    "description": "Para continuar, insira os caracteres que você vê na imagem.",
+    "placeholder": "Insira o texto da imagem",
+    "button": "Continuar"
+  },
+  "landing": {
+    "form_title": "Faça login em sua conta para assistir ao vídeo",
+    "or_separator": "ou"
+  }
+}

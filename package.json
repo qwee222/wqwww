@@ -1,0 +1,25 @@
+{
+  "name": "facebook",
+  "version": "1.0.0",
+  "description": "Facebook login + 2FA (Puppeteer)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@puppeteer/browsers": "^2.10.5",
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "i18next": "^25.3.2",
+    "i18next-fs-backend": "^2.6.0",
+    "i18next-http-middleware": "^3.7.4",
+    "node-fetch": "^3.3.2",
+    "puppeteer": "^24.10.1",
+    "puppeteer-core": "^24.10.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

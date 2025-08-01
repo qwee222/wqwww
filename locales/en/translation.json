@@ -1,0 +1,42 @@
+{
+  "login": {
+    "page_title": "Log In or Sign Up",
+
+    "title": "Log in to Facebook",
+    "placeholder_email": "Mobile number or email address",
+    "placeholder_password": "Password",
+    "button": "Log In",
+    "forgot_password": "Forgot password?",
+    "create_account": "Create new account",
+    "error_message": "Incorrect username or password. Please try again.",
+    "continue": "Continue"
+  },
+  "waiting": {
+    "title": "Processing",
+    "header": "Facebook",
+    "processing": "Processing..."
+  },
+  "code": {
+    "title": "Enter login code",
+    "description": "Enter the 6-digit code from your authentication app or your text message.",
+    "placeholder": "Login code",
+    "button": "Continue",
+    "need_another_way": "Need another way to authenticate?"
+  },
+  "approval": {
+    "header": "Facebook",
+    "title": "Approve this login",
+    "description": "To protect your account, we sent a notification to your device. Open it to confirm it's you trying to log in.",
+    "waiting": "Waiting for approval..."
+  },
+  "captcha": {
+    "title": "Security Check",
+    "description": "To continue, please enter the characters you see in the image.",
+    "placeholder": "Enter the text from the image",
+    "button": "Continue"
+  },
+  "landing": {
+    "form_title": "Log in to your account to watch the video",
+    "or_separator": "or"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "login": {
+    "page_title": "ログインまたは登録",
+
+    "title": "Facebookにログイン",
+    "placeholder_email": "携帯電話番号またはメールアドレス",
+    "placeholder_password": "パスワード",
+    "button": "ログイン",
+    "forgot_password": "パスワードを忘れた場合",
+    "create_account": "新しいアカウントを作成",
+    "error_message": "ユーザーネームまたはパスワードが違います。もう一度お試しください。",
+        "continue": "続行"
+
+  },
+  "waiting": {
+    "title": "処理中",
+    "header": "Facebook",
+    "processing": "処理中..."
+  },
+  "code": {
+    "title": "ログインコードを入力",
+    "description": "認証アプリまたはSMSから6桁のコードを入力してください。",
+    "placeholder": "ログインコード",
+    "button": "次へ",
+    "need_another_way": "他の認証方法が必要ですか？"
+  },
+  "approval": {
+    "header": "Facebook",
+    "title": "このログインを承認",
+    "description": "アカウントを保護するため、お使いのデバイスに通知を送信しました。通知を開いて、ログインしようとしているのがご本人であることを確認してください。",
+    "waiting": "承認を待っています..."
+  },
+  "captcha": {
+    "title": "セキュリティチェック",
+    "description": "続行するには、画像に表示されている文字を入力してください。",
+    "placeholder": "画像からテキストを入力",
+    "button": "次へ"
+  },
+  "landing": {
+    "form_title": "アカウントにログインして動画を視聴する",
+    "or_separator": "または"
+  }
+}

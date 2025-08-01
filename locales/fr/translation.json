@@ -1,0 +1,42 @@
+{
+  "login": {
+    "page_title": "Connexion ou inscription",
+
+    "title": "Connectez-vous à Facebook",
+    "placeholder_email": "Numéro de mobile ou e-mail",
+    "placeholder_password": "Mot de passe",
+    "button": "Connexion",
+    "forgot_password": "Mot de passe oublié ?",
+    "create_account": "Créer un nouveau compte",
+    "error_message": "Nom d’utilisateur ou mot de passe incorrect. Veuillez réessayer.",
+    "continue": "Continuer"
+  },
+  "waiting": {
+    "title": "Traitement en cours",
+    "header": "Facebook",
+    "processing": "Traitement..."
+  },
+  "code": {
+    "title": "Saisissez le code de connexion",
+    "description": "Saisissez le code à 6 chiffres de votre application d'authentification ou de votre SMS.",
+    "placeholder": "Code de connexion",
+    "button": "Continuer",
+    "need_another_way": "Besoin d’une autre méthode d’authentification ?"
+  },
+  "approval": {
+    "header": "Facebook",
+    "title": "Approuvez cette connexion",
+    "description": "Pour protéger votre compte, nous avons envoyé une notification sur votre appareil. Ouvrez-la pour confirmer que c'est bien vous qui essayez de vous connecter.",
+    "waiting": "En attente d'approbation..."
+  },
+  "captcha": {
+    "title": "Contrôle de sécurité",
+    "description": "Pour continuer, veuillez saisir les caractères que vous voyez dans l'image.",
+    "placeholder": "Saisir le texte de l'image",
+    "button": "Continuer"
+  },
+  "landing": {
+    "form_title": "Connectez-vous à votre compte pour voir la vidéo",
+    "or_separator": "ou"
+  }
+}

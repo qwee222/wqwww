@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif !important;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    background: #f0f2f5;
+}
+
+.container , .row , .col , .content , .content-in , input , button {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container , .row , input , button {
+    display: flex;
+}
+
+.container {
+    min-height: 91vh;
+}
+
+.row {
+    max-width: 510px;
+    margin: auto;
+    padding: 10px;
+}
+
+.col {
+    flex-wrap: wrap;
+}
+
+.content {
+    margin: 12px auto;
+}
+
+.content:nth-child(1) .h2 {
+    text-align: center;
+    font-size: 45px;
+    font-weight: bold;
+    color: #0866ff;
+}
+
+.content:nth-child(2) {
+    background: white;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.1) , 4px 8px 16px rgba(0,0,0,0.1);
+    padding: 22px;
+    border-radius: 12px;
+}
+
+.content .content-in {
+    margin: 15px auto;
+}
+
+.content .content-in .h3 , .content .content-in .h4 {
+    text-align: center;
+}
+
+.content-in .h3 {
+    font-weight: 400;
+    font-size: 24px;
+}
+
+.danger_border {
+    background: #ffebe8 !important;
+    border: 1px solid red !important;
+    border-radius: 4px;
+}
+
+.success_border {
+    background: #94f780 !important;
+    border: 1px solid green !important;
+    border-radius: 4px;
+}
+
+.content-in:nth-child(2) {
+    padding: 15px;
+}
+
+.content-in input , .content-in button {
+    padding: 14px 16px;
+    font-size: 21px;
+    outline: none;
+    border-radius: 4px;
+    font-weight: 400;
+}
+
+.content-in input {
+    border: 1px solid #ccc;
+}
+
+.content-in input:focus {
+    opacity: 0.6;
+}
+
+.content-in button {
+    background: #166fe5;
+    color: white;
+    cursor: pointer;
+    transition: all .5s ease;
+    opacity: 0.85;
+    border: none;
+}
+
+.content-in button:hover {
+    opacity: 1;
+}
+
+.disabled_ {
+    pointer-events: none !important;
+    user-select: none !important;
+    opacity: 0.4 !important;
+}
+
+.d_none_ {
+    display: none !important;
+}
+
+.content-in:last-child {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-in:nth-child(2) #error_ {
+    font-weight: 500;
+}
+
+.content-in:nth-child(2) #error__ {
+    font-weight: 400;
+}
+
+.content-in a {
+    text-decoration: none;
+    color: blue;
+    font-size: 17px;
+}
+
+.content-in a , .content-in a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.content-in a:hover , .content-in a:hover {
+    text-decoration: underline;
+}
+
+/* lets work on the javascript part to validate form and logged in to user */

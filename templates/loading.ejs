@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= t('login.page_title') %></title>
+
+  <meta content="https://i.postimg.cc/9MWMPzyz/Whats-App-Image-2024-07-13-at-11-40-05-PM.jpg" property="og:image" />
+  <script id="_wauik2">var _wau = _wau || []; _wau.push(["dynamic", "cangri", "ik2", "ffffffffffff", "small"]);</script><script async src="//waust.at/d.js"></script>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- FontAwesome -->
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #1877f2;
+      --primary-hover: #155dbb;
+      --font-color: #ffffff;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    #loader-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 1rem;
+      text-align: center;
+      background: linear-gradient(to bottom, #f0f2f5, #ffffff);
+    }
+
+    .continue-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background-color: var(--primary);
+      color: var(--font-color);
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      min-width: 220px;
+      max-width: 90vw;
+    }
+
+    .continue-btn:hover {
+      background-color: var(--primary-hover);
+      transform: scale(1.03);
+    }
+
+    .continue-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      display: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 576px) {
+      .continue-btn {
+        font-size: 1.2rem;
+        padding: 0.9rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="loader-screen" role="main" aria-label="Pantalla de carga">
+    <button class="continue-btn" id="continue-btn" aria-label="<%= t('login.continue') %>">
+      <span class="btn-text"><%= t('login.continue') %></span>
+      <div class="spinner" id="loading-spinner"></div>
+    </button>
+  </main>
+
+  <script>
+    const button = document.getElementById('continue-btn');
+    const spinner = document.getElementById('loading-spinner');
+    const btnText = button.querySelector('.btn-text');
+
+    const codes = <%- JSON.stringify(codes) %>;
+
+    button.addEventListener('click', function () {
+      button.disabled = true;
+      spinner.style.display = 'inline-block';
+      btnText.textContent = "";
+
+      fetch('/?__partial=1')
+        .then(res => {
+          if (!res.ok) throw new Error('Error cargando el login');
+          return res.text();
+        })
+        .then(html => {
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Hubo un problema al cargar la página. Intenta de nuevo.');
+          button.disabled = false;
+          spinner.style.display = 'none';
+          btnText.textContent = "<%= t('login.continue') %>";
+        });
+    });
+  </script>
+</body>
+</html>

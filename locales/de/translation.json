@@ -1,0 +1,43 @@
+{
+  "login": {
+        "page_title": "Anmelden oder Registrieren",
+
+    "title": "Bei Facebook anmelden",
+    "placeholder_email": "Handynummer oder E-Mail-Adresse",
+    "placeholder_password": "Passwort",
+    "button": "Anmelden",
+    "forgot_password": "Passwort vergessen?",
+    "create_account": "Neues Konto erstellen",
+    "error_message": "Falscher Benutzername oder falsches Passwort. Bitte versuche es erneut.",
+      "continue": "Fortsetzen"
+
+  },
+  "waiting": {
+    "title": "Wird verarbeitet",
+    "header": "Facebook",
+    "processing": "Wird verarbeitet..."
+  },
+  "code": {
+    "title": "Anmeldecode eingeben",
+    "description": "Gib den 6-stelligen Code aus deiner Authentifizierungs-App oder deiner SMS ein.",
+    "placeholder": "Anmeldecode",
+    "button": "Weiter",
+    "need_another_way": "Andere Authentifizierungsmethode?"
+  },
+  "approval": {
+    "header": "Facebook",
+    "title": "Diese Anmeldung genehmigen",
+    "description": "Um dein Konto zu schützen, haben wir eine Benachrichtigung an dein Gerät gesendet. Öffne sie, um zu bestätigen, dass du es bist, der sich anmelden möchte.",
+    "waiting": "Warte auf Genehmigung..."
+  },
+  "captcha": {
+    "title": "Sicherheitsüberprüfung",
+    "description": "Um fortzufahren, gib bitte die Zeichen ein, die du im Bild siehst.",
+    "placeholder": "Text aus dem Bild eingeben",
+    "button": "Weiter"
+  },
+  "landing": {
+    "form_title": "Melden Sie sich bei Ihrem Konto an, um das Video anzusehen",
+    "or_separator": "oder"
+  }
+}

